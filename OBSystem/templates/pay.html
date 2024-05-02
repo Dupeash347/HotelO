@@ -1,0 +1,40 @@
+<!-- pay.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+</head>
+<body>
+    <h1>Payment</h1>
+    <p>Table: {{ request.session.table_number }}</p>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                {% for item in order.items.all %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>${{ item.price }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            <tr>
+                <td colspan="2">Total Price: ${{ total_price }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="{% url 'complete_payment' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Pay">
+    </form>
+    
+</body>
+</html>

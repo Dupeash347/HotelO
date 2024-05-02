@@ -1,0 +1,142 @@
+<!-- home.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        font-family: "Times New Roman", Times, serif;
+      }
+      .cat {
+        background-color: rgb(57, 157, 251);
+        color: white;
+
+        padding: 12px 18px;
+      }
+
+      .menu {
+        background-color: #011638;
+        padding: 12px 18px;
+        color: white;
+        border: 3px solid black;
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .menu a {
+        padding: 12px;
+        background-color: white;
+        color: #011638;
+        text-decoration: none;
+        transition: 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+        border-radius: 5px;
+      }
+
+      .menu a:hover {
+        background-color: blue;
+        color: white;
+      }
+
+      .items {
+        padding: 12px 2rem;
+      }
+
+      ul {
+        list-style: none;
+        display: flex;
+        gap: 1rem;
+        flex-direction: column;
+      }
+
+      .item-n {
+        border: 3px solid black;
+        padding: 12px 15px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+
+        justify-content: space-between;
+      }
+
+      .sub {
+        background-color: rgb(57, 157, 251);
+        color: white;
+        border: none;
+        padding: 8px 10px;
+        border-radius: 20px;
+        font-size: 16px;
+      }
+
+      .sub:hover {
+        background-color: rgb(90, 175, 255);
+        cursor: pointer;
+      }
+
+      .message {
+        padding: 12px 18px;
+        font-size: 20px;
+        animation-name: one;
+        animation-timing-function: ease-in-out;
+        animation-duration: 0.52s;
+        animation-fill-mode: forwards;
+      }
+
+      @keyframes one {
+        from {
+          background-color: white;
+          color: black;
+          transform: translate(-100%);
+        }
+        to {
+          background-color: rgb(237, 61, 61);
+          color: white;
+          transform: translate(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% if messages %} {% for message in messages %}
+    <div class="message">{{ message }}</div>
+    {% endfor %} {% endif %}
+    <div class="menu">
+      <h1>Menu</h1>
+      <a href="{% url 'orders' %}">View Orders</a>
+    </div>
+
+    {% for category in categories %}
+    <div class="cat">
+      <h2>{{ category.name }}</h2>
+    </div>
+    <div class="items">
+      <ul>
+        {% for item in category.menuitem_set.all %}
+        <li class="item-n">
+          <div>{{ item.name }} - ${{ item.price }}</div>
+          <div>
+            <form action="{% url 'add_to_order' %}" method="post">
+              {% csrf_token %}
+              <input
+                type="hidden"
+                name="table_number"
+                value="{{ request.session.table_number }}"
+              />
+              <input type="hidden" name="item_id" value="{{ item.id }}" />
+              <input type="submit" value="Add to Order" class="sub" />
+            </form>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {% endfor %}
+  </body>
+</html>
