@@ -1,17 +1,106 @@
-<!-- home.html -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Navbar</title>
     <style>
       * {
         padding: 0;
         margin: 0;
-        font-family: "Times New Roman", Times, serif;
       }
+
+      body {
+        height: 100vh;
+      }
+
+      /* .loader {
+        position: absolute;
+        z-index: 1;
+        height: 100vh;
+        width: 100%;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .loader::after {
+        content: "";
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+
+        border: 25px solid orangered;
+        border-top-color: black;
+        border-bottom-color: black;
+        animation: one 0.64s linear infinite;
+      }
+
+      @keyframes one {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .remove{
+        animation: acc .25s linear 1  ;
+        
+      }
+
+      @keyframes acc {
+        100%{
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+      } */
+
+      nav {
+        background-color: black;
+        padding: 1rem 2rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        /* flex-direction: column; */
+      }
+
+      nav ul li {
+        list-style: none;
+        padding: 2px 15px;
+      }
+
+      nav ul li a {
+        text-decoration: none;
+        color: rgb(181, 181, 181);
+        font-size: 22px;
+        transition-property: color;
+        transition-duration: .25s;
+        transition-timing-function: ease-in-out;
+        cursor: pointer;
+      }
+
+      nav ul {
+        display: flex;
+      }
+
+
+
+      nav ul li a:hover {
+        color: white;
+      }
+
+      img {
+        width: 25px;
+        object-fit: cover;
+        border: 1px solid white;
+        border-radius: 50%;
+      }
+
+
       .cat {
         background-color: rgb(57, 157, 251);
         color: white;
@@ -48,7 +137,7 @@
         padding: 12px 2rem;
       }
 
-      ul {
+     .its {
         list-style: none;
         display: flex;
         gap: 1rem;
@@ -100,43 +189,111 @@
           transform: translate(0);
         }
       }
+
+
+
+      
+
+      footer {
+        background-color: black;
+        padding: 1rem 2rem;
+        position: fixed;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        width: 100%;
+      }
+
+      @media screen and (max-width: 700px) {
+
+        nav{
+            padding:0;
+            flex-direction: column;
+        }
+       
+        nav ul{
+            flex-direction: column;
+            width: 100%;
+        }
+
+        nav ul li{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            color: white;
+        }
+
+        nav ul li a {
+            display: block;
+            text-align: center;
+        }
+        
+      }
     </style>
   </head>
   <body>
-    {% if messages %} {% for message in messages %}
-    <div class="message">{{ message }}</div>
-    {% endfor %} {% endif %}
-    <div class="menu">
-      <h1>Menu</h1>
-      <a href="{% url 'orders' %}">View Orders</a>
-    </div>
-
-    {% for category in categories %}
-    <div class="cat">
-      <h2>{{ category.name }}</h2>
-    </div>
-    <div class="items">
+    <div class="loader"></div>
+    <nav>
       <ul>
-        {% for item in category.menuitem_set.all %}
-        <li class="item-n">
-          <div>{{ item.name }} - ${{ item.price }}</div>
-          <div>
-            <form action="{% url 'add_to_order' %}" method="post">
-              {% csrf_token %}
-              <input
-                type="hidden"
-                name="table_number"
-                value="{{ request.session.table_number }}"
-              />
-              <input type="hidden" name="item_id" value="{{ item.id }}" />
-              <input type="submit" value="Add to Order" class="sub" />
-            </form>
-          </div>
-        </li>
-        {% endfor %}
+        <li><a href="">Home</a></li>
+        <li><a href="">Contact</a></li>
+        <li><a href="">About</a></li>
       </ul>
-    </div>
+      <div>
+        <img src="Capture.PNG" alt="" />
+      </div>
+    </nav>
+    <header>
+      
+      
+<div>
+  {% if messages %} {% for message in messages %}
+  <div class="message">{{ message }}</div>
+  {% endfor %} {% endif %}
+  <div class="menu">
+    <h1>Menu</h1>
+    <a href="{% url 'orders' %}">View Orders</a>
+  </div>
 
-    {% endfor %}
+  {% for category in categories %}
+  <div class="cat">
+    <h2>{{ category.name }}</h2>
+  </div>
+  <div class="items">
+    <ul class="its">
+      {% for item in category.menuitem_set.all %}
+      <li class="item-n">
+        <div>{{ item.name }} - ${{ item.price }}</div>
+        <div>
+          <form action="{% url 'add_to_order' %}" method="post">
+            {% csrf_token %}
+            <input
+              type="hidden"
+              name="table_number"
+              value="{{ request.session.table_number }}"
+            />
+            <input type="hidden" name="item_id" value="{{ item.id }}" />
+            <input type="submit" value="Add to Order" class="sub" />
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {% endfor %}
+</div>
+    </header>
+    <footer>Copyright @ 2023</footer>
+    <script>
+      window.addEventListener("load", function (e) {
+        document.querySelector(".loader").classList.add('remove')
+        setTimeout(() => {
+            document.querySelector('.remove').style.display = 'none'
+        }, 200);
+      });
+    </script>
   </body>
 </html>

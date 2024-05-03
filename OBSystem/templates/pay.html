@@ -1,40 +1,266 @@
-<!-- pay.html -->
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment</title>
-</head>
-<body>
-    <h1>Payment</h1>
-    <p>Table: {{ request.session.table_number }}</p>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for order in orders %}
-                {% for item in order.items.all %}
-                    <tr>
-                        <td>{{ item.name }}</td>
-                        <td>${{ item.price }}</td>
-                    </tr>
-                {% endfor %}
-            {% endfor %}
-            <tr>
-                <td colspan="2">Total Price: ${{ total_price }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <form action="{% url 'complete_payment' %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Pay">
-    </form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navbar</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        height: 100vh;
+      }
+
+      .loader {
+        position: absolute;
+        z-index: 1;
+        height: 100vh;
+        width: 100%;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .loader::after {
+        content: "";
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+
+        border: 25px solid orangered;
+        border-top-color: black;
+        border-bottom-color: black;
+        animation: one 0.64s linear infinite;
+      }
+
+      @keyframes one {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .remove {
+        animation: acc 0.25s linear 1;
+      }
+
+      @keyframes acc {
+        100% {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+      }
+
+      nav {
+        background-color: black;
+        padding: 1rem 2rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        /* flex-direction: column; */
+      }
+
+      nav ul li {
+        list-style: none;
+        padding: 2px 15px;
+      }
+
+      nav ul li a {
+        text-decoration: none;
+        color: rgb(181, 181, 181);
+        font-size: 22px;
+        transition-property: color;
+        transition-duration: 0.25s;
+        transition-timing-function: ease-in-out;
+        cursor: pointer;
+      }
+
+      nav ul {
+        display: flex;
+      }
+
+      nav ul li a:hover {
+        color: white;
+      }
+
+      img {
+        width: 25px;
+        object-fit: cover;
+        border: 1px solid white;
+        border-radius: 50%;
+      }
+
+
+      .flexy{
+        padding: 20px 22px;
+        display: flex;
+   
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
     
-</body>
+      }
+
+      .cnt{
+        padding: 12px 18px;
+        border-radius: 10px;
+        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        box-shadow: 0 0 8px 8px rgba(0, 0, 0,0.25);
+        gap: 8px ;
+      
+      }
+
+      
+      h2{
+        
+        padding: 12px auto;
+      }
+
+      p{
+        align-self: flex-start;
+      }
+
+      table{
+        width: 80%;
+        border: 1px solid black;
+        
+      }
+
+      thead{
+        background-color: rgb(147, 225, 255);
+      }
+
+      table tr:nth-child(even){background-color: #f2f2f2;}
+
+      td{
+        text-align: center;
+      }
+
+
+
+      .pay{
+        padding: 12px 22px;
+        background-color: rgb(25, 197, 255);
+        color:white;
+        border: none;
+        border-radius: 17px;
+        transition: 0.25s ease-in-out opacity;
+      }
+
+      .pay a{
+        color:white;
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      .pay:hover{
+        opacity: 80%;
+      }
+
+      
+
+
+
+      footer {
+        background-color: black;
+        padding: 1rem 2rem;
+        position: fixed;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        width: 100%;
+      }
+
+      @media screen and (max-width: 700px) {
+        nav {
+          padding: 0;
+          flex-direction: column;
+        }
+
+        nav ul {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        nav ul li {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+          color: white;
+        }
+
+        nav ul li a {
+          display: block;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loader"></div>
+    <nav>
+      <ul>
+        <li><a href="">Home</a></li>
+        <li><a href="">Contact</a></li>
+        <li><a href="">About</a></li>
+      </ul>
+      <div>
+        <img src="Capture.PNG" alt="" />
+      </div>
+    </nav>
+    <header>
+      <div class="flexy">
+        <div class="cnt">
+            <h2>Payment</h2>
+            <p>Table: {{ request.session.table_number }}</p>
+            <table border="1">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in orders %} {% for item in order.items.all %}
+                <tr>
+                  <td>{{ item.name }}</td>
+                  <td>${{ item.price }}</td>
+                </tr>
+                {% endfor %} {% endfor %}
+                <tr>
+                  <td colspan="2">Total Price: ${{ total_price }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <form action="{% url 'complete_payment' %}" method="post">
+              {% csrf_token %}
+              <input type="submit" value="Pay" class="pay" />
+            </form>
+        </div>
+       
+      </div>
+    </header>
+    <footer>Copyright @ 2023</footer>
+    <script>
+      window.addEventListener("load", function (e) {
+        document.querySelector(".loader").classList.add("remove");
+        setTimeout(() => {
+          document.querySelector(".remove").style.display = "none";
+        }, 200);
+      });
+    </script>
+  </body>
 </html>
