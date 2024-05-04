@@ -1,15 +1,183 @@
-<!-- revenue.html -->
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revenue</title>
-</head>
-<body>
-    <h1>Revenue</h1>
-    <p>Total Revenue: ${{ revenue }}</p>
-    <img src="data:image/png;base64,{{ graph }}" alt="Revenue Graph">
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navbar</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        height: 100vh;
+      }
+
+      .loader {
+        position: absolute;
+        z-index: 1;
+        height: 100vh;
+        width: 100%;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .loader::after {
+        content: "";
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+
+        border: 25px solid orangered;
+        border-top-color: black;
+        border-bottom-color: black;
+        animation: one 0.64s linear infinite;
+      }
+
+      @keyframes one {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .remove {
+        animation: acc 0.25s linear 1;
+      }
+
+      @keyframes acc {
+        100% {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+      }
+
+      nav {
+        background-color: black;
+        padding: 1rem 2rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        /* flex-direction: column; */
+      }
+
+      nav ul li {
+        list-style: none;
+        padding: 2px 15px;
+      }
+
+      nav ul li a {
+        text-decoration: none;
+        color: rgb(181, 181, 181);
+        font-size: 22px;
+        transition-property: color;
+        transition-duration: 0.25s;
+        transition-timing-function: ease-in-out;
+        cursor: pointer;
+      }
+
+      nav ul {
+        display: flex;
+      }
+
+      nav ul li a:hover {
+        color: white;
+      }
+
+      img {
+        width: 25px;
+        object-fit: cover;
+        border: 1px solid white;
+        border-radius: 50%;
+      }
+
+      .flexy {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 30px;
+        flex-direction: column;
+      }
+
+
+
+      img{
+        object-fit: contain;
+        width: 100%;
+        height: 400px;
+      }
+
+      footer {
+        background-color: black;
+        padding: 1rem 2rem;
+        position: fixed;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        width: 100%;
+      }
+
+      @media screen and (max-width: 700px) {
+        nav {
+          padding: 0;
+          flex-direction: column;
+        }
+
+        nav ul {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        nav ul li {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+          color: white;
+        }
+
+        nav ul li a {
+          display: block;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loader"></div>
+    <nav>
+      <ul>
+        <li><a href="">Home</a></li>
+        <li><a href="">Contact</a></li>
+        <li><a href="">About</a></li>
+      </ul>
+      <div>
+       <!-- url image may go here -->
+      </div>
+    </nav>
+    <header>
+      <div class="flexy">
+    
+        <h1>Revenue</h1>
+        <p>Total Revenue: ${{ revenue }}</p>
+        <img src="data:image/png;base64,{{ graph }}" alt="Revenue Graph" />
+      </div>
+    </header>
+    <footer>Copyright @ 2023</footer>
+    <script>
+      window.addEventListener("load", function (e) {
+        document.querySelector(".loader").classList.add("remove");
+        setTimeout(() => {
+          document.querySelector(".remove").style.display = "none";
+        }, 200);
+      });
+    </script>
+  </body>
 </html>

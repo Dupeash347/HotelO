@@ -173,23 +173,47 @@
         font-size: 20px;
         animation-name: one;
         animation-timing-function: ease-in-out;
-        animation-duration: 0.52s;
+        animation-duration: 1.25s;
         animation-fill-mode: forwards;
+    
       }
 
       @keyframes one {
-        from {
+        0% {
           background-color: white;
           color: black;
           transform: translate(-100%);
         }
-        to {
-          background-color: rgb(237, 61, 61);
+        40% {
+          background-color: rgb(61, 122, 237);
           color: white;
           transform: translate(0);
+        }60%{
+          background-color: rgb(0, 94, 255);
+          transform: translateY(0);
+        }
+        70%{
+          transform: translateY(-30%);
+        }
+        80%{
+          transform: translateY(-40%);
+        }
+        80%{
+          transform: translateY(-50%);
+          opacity: 50%;
+        }
+        90%{
+          transform: translateY(-55%);
+          opacity: 40%;
+        }
+        100%{
+          transform: translateY(-60%);
+          opacity: 30%;
+          display: none;
         }
       }
 
+      
 
 
       
