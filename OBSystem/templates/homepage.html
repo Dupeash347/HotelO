@@ -8,6 +8,7 @@
       * {
         padding: 0;
         margin: 0;
+        font-family: 'Times New Roman', Times, serif;
       }
 
       body {
@@ -58,6 +59,10 @@
         }
       } */
 
+      body{
+        background-color: rgb(224, 224, 224);
+      }
+
       nav {
         background-color: black;
         padding: 1rem 2rem;
@@ -102,35 +107,37 @@
 
 
       .cat {
-        background-color: rgb(57, 157, 251);
-        color: white;
+      
+        color: rgb(20, 20, 20);
 
-        padding: 12px 18px;
+        padding: 12px 25px;
       }
 
       .menu {
-        background-color: #011638;
-        padding: 12px 18px;
+        
+        padding: 12px 24px;
         color: white;
-        border: 3px solid black;
         display: flex;
-
+        color: black;
         align-items: center;
         justify-content: space-between;
+        font-size: 16px;
       }
 
       .menu a {
+        border: 0.5px solid #023280;
         padding: 12px;
         background-color: white;
-        color: #011638;
+        color: #003283;
         text-decoration: none;
         transition: 0.25s cubic-bezier(0.23, 1, 0.32, 1);
         border-radius: 5px;
       }
 
       .menu a:hover {
-        background-color: blue;
+        background-color: rgb(47, 97, 204);
         color: white;
+        border: 0.5px solid rgb(40, 67, 187);
       }
 
       .items {
@@ -144,14 +151,23 @@
         flex-direction: column;
       }
 
+
+      h1{
+        font-size: 28px;
+      }
       .item-n {
-        border: 3px solid black;
+        border: 0.24px solid black;
         padding: 12px 15px;
         border-radius: 10px;
         display: flex;
+        font-size: 17px;
         align-items: center;
-
+        background-color: white;
         justify-content: space-between;
+      }
+
+      .item-n:hover{
+        background-color: rgb(219, 219, 219);
       }
 
       .sub {
@@ -176,6 +192,10 @@
         animation-duration: 1.25s;
         animation-fill-mode: forwards;
     
+      }
+
+      .i-name{
+        font-weight: 520;
       }
 
       @keyframes one {
@@ -221,14 +241,15 @@
       footer {
         background-color: black;
         padding: 1rem 2rem;
-        position: fixed;
-        bottom: 0;
+        position: absolute;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
         width: 100%;
       }
+
+     
 
       @media screen and (max-width: 700px) {
 
@@ -289,7 +310,7 @@
     <ul class="its">
       {% for item in category.menuitem_set.all %}
       <li class="item-n">
-        <div>{{ item.name }} - ${{ item.price }}</div>
+        <div class="i-name">{{ item.name }} - ${{ item.price }}</div>
         <div>
           <form action="{% url 'add_to_order' %}" method="post">
             {% csrf_token %}
@@ -310,7 +331,10 @@
   {% endfor %}
 </div>
     </header>
-    <footer>Copyright @ 2023</footer>
+    <div class="f">
+      <footer>Copyright @ 2023</footer>
+    </div>
+    
     <script>
       window.addEventListener("load", function (e) {
         document.querySelector(".loader").classList.add('remove')

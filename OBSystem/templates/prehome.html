@@ -8,6 +8,7 @@
       * {
         padding: 0;
         margin: 0;
+        font-family:Verdana, Geneva, Tahoma, sans-serif
       }
 
       body {
@@ -149,6 +150,7 @@
         color: white;
         align-items: center;
         justify-content: center;
+        gap:30px;
         flex-direction: column;
         box-shadow: 0 0 12px 12px rgba(0, 0, 0, 0.25);
         
@@ -165,22 +167,30 @@
         padding: 12px 18px;
         background-color: rgb(19, 173, 255);
         color:white;
-        font-size: 12px;
+        font-size: 14px;
         border-radius: 12px;
-        transition: 0.25s ease-in-out background-color;
+        border: 1px solid transparent;
+        transition: 0.4s ease-in-out background-color;
         
       }
 
       .sub:hover{
-        background-color: rgb(73, 145, 253);
+        background-color: white;
+        color: rgb(19, 173, 255);
+        border: 1px solid rgb(19, 173, 255);
         
         
       }
 
       .inp{
-        box-shadow: 0 0 2px 2px inset;
+        box-shadow: 0 0 1px 1px inset;
         background-color: white;
-        padding: 4px 7px;
+        padding: 4px 10px;
+        font-size: 16px;
+      }
+
+      .inp:focus{
+        border: 1px solid red;
       }
 
     </style>
